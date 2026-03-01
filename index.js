@@ -2,26 +2,22 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const fs = require('fs');
 
+// Charger étudiants
 const students = JSON.parse(fs.readFileSync('students_prepo_25_26.json'));
 
 const ADMIN_NUMBERS = ["243XXXXXXXXX@c.us"];
-
 let bannedUsers = new Set();
-let loggedUsers = {};
+let loggedUsers = {}; // stocker session par numéro
 
+// Configuration simplifiée pour Codespaces
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        executablePath: '/data/data/com.termux/files/usr/bin/chromium-browser',
-        headless: true,
+        headless: true,       // mode headless obligatoire
         args: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--no-first-run',
-            '--no-zygote',
-            '--single-process'
-        ]
+        ],
     }
 });
 
